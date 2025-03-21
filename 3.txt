@@ -1,0 +1,142 @@
+Import java.util.*;
+
+Class Rank Student
+
+int age, reg, Sem;
+
+Poos oop, ds,con, CSIK, total, Pex';
+
+Stering name, gen, ber'
+
+Static int P=12
+
+void cread
+
+{
+
+Scames SC=new Scanner(System.in);
+
+System.out.println("Enter Register number: ");
+
+reg=sc.nextInt();
+
+System.out.println(Enter Age:"); age=Sc.nextInt();
+
+System.out Prink InEnter Names");
+
+hame=SC-next();
+
+System.out.println("Enter Gender:");
+
+gen-sc.next();
+
+System.Doul. Porintien (Enter Semester:");
+Dor= SC.next();
+
+System.out.println("Enter semesters");
+
+Sem = sc.nextInt();
+
+System.out.println("Enter marks of
+
+oop-sc-next-Float
+
+oop: ");
+
+oop=sc.nextFloat();
+
+System-out. Porintdn ("Enter marks of DS:
+
+ds=sc.nextFloat()
+
+System-Out Perint en "Enter marks of CCN;
+
+coro=SC-nextFloat();
+
+System-Out Porintien ("Enter marks of ESIK:
+
+CSIK-SC-nextFloat()%
+
+Vold calc) Yord
+
+total= Oop + ds+con+cs;
+
+Per total/1400*100;
+
+}
+
+Static Student highest (int n, Students SCD) {
+
+Student temp=new Student();
+
+temp= S[0];
+
+for (int i=0; i<n; i++)
+
+If (temp total <S[1].total)
+
+temp=s[1];
+
+}
+
+detin temp;
+
+}
+vold display Co
+
+System.out.println(1+ It" treg
+
+romet "It" tage + "It + gent"1" by+" It'+ sem + "144" toop+"It
+
++dst"It" + een + "/"
+
++ total +"/"+ pes);
+
+1++1
+
+Public class main
+
+Public static void main(Storing[] args)
+
+Scanner sc = new Scanner(System.in);
+
+System.out forintln("Enter the total number of students:");
+
+int n = sc.nextInt();
+
+Student s[] = new Student[n];
+
+for(int i=0; i<n;i++)
+
+System.out.printen ("Enter the details of "+(1+1)+ students:");
+
+S[i] = new Student();
+
+SLiJ.read();
+
+for(int i=0;i<n; i++)
+
+S[i].cal();
+
+System.out.println("Detalls of "th" students:"",
+System.out. Prinkin(s) Moll Regno It Namelt Agelt Gender It Branch it semester lf oop It Dsit CON IL CSIR H total + Bencentage"
+
+for(int i=0; i<n; i++)
+
+S[i].display();
+
+Student S1= new Student();
+
+$1=Student highest(nis);
+
+Student #1;
+
+System.out.println("S) No It Reg No It Namelt
+
+Agelt Gendes it Department omistatoop 1+ CSIKI+ CCN It DSIK Total 1 + Pecre
+
+lage)
+
+SI.display();
+
+}
