@@ -1,0 +1,523 @@
+part A
+1. Write a program to describe the dataset using pandasdataframe commands and encode the 
+
+same.
+
+Program Code :
+
+fromsklearn import datasets
+
+importnumpy as np
+
+import pandas as pd
+
+fromsklearn.preprocessing import LabelEncoder, OneHotEncoder
+
+data=pd.read_csv(r"C:\Users\jackw\Downloads\iris.csv")
+
+iris=datasets.load_iris()
+
+data=pd.DataFrame(data=np.c_[iris['data'],iris['target']], 
+
+columns=iris['feature_names']+['target'])
+
+data['target_names']=data['target'].replace(dict(enumerate(iris.target_names)))
+
+print(data.head())
+
+data.info()
+
+print(data.describe())
+
+Label_encoder=LabelEncoder()
+
+data['target_names']=Label_encoder.fit_transform(data['target_names'])
+
+print(data['target_names'])
+
+print(Label_encoder.classes_)
+
+print(data['target_names'].value_counts())
+
+One_hot=OneHotEncoder()
+
+transformed_data=One_hot.fit_transform(data['target_names'].values.reshape(-1,1)).toarray()
+
+print(One_hot.categories_)
+
+transformed_data=pd.DataFrame(transformed_data, columns=['setosa','versicolor','virginica'])
+
+print(transformed_data.head())
+
+2. Write a program to visualize the iris dataset using sepal and petal values.
+
+Program Code: 
+
+fromsklearn import datasets
+
+importnumpy as np
+
+import pandas as pd
+
+importmatplotlib.pyplot as plt
+
+iris = datasets.load_iris()
+
+data = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+
+print(data)
+
+fig, ax = plt.subplots() # Assign fig here
+
+scatter = ax.scatter(iris.data[:, 0], iris.data[:, 1], c=iris.target)
+
+ax.set(xlabel=iris.feature_names[0], ylabel=iris.feature_names[1])
+
+ax.legend(scatter.legend_elements()[0], iris.target_names, loc="lower right", title="Classes")
+
+plt.show()
+
+fig, ax = plt.subplots()
+
+scatter = ax.scatter(iris.data[:, 0], iris.data[:, 1], c=iris.target)
+
+ax.set(xlabel=iris.feature_names[2], ylabel=iris.feature_names[3])
+
+ax.legend(scatter.legend_elements()[0], iris.target_names, loc="lower right", title="Classes")
+
+plt.show()
+
+3. Write a program to apply linear regression on the iris dataset and find the error of prediction.
+
+Ans: from sklearn import datasets, decomposition
+
+import pandas as pd
+
+fromsklearn.linear_model import LinearRegression
+
+fromsklearn.model_selection import train_test_split
+
+fromsklearn.metrics import mean_squared_error
+
+importmatplotlib.pyplot as plt
+
+iris = datasets.load_iris()
+
+X = iris.data
+
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42) 
+
+model = LinearRegression()
+
+model.fit(X_train, y_train) 
+
+y_pred = model.predict(X_test)
+
+mse = mean_squared_error(y_test, y_pred)
+
+print("Mean Squared Error:", mse)
+
+4. Write a program to apply logistic regression on the iris dataset.
+
+Ans: from sklearn import datasets, decomposition
+
+import pandas as pd
+
+fromsklearn.linear_model import LogisticRegression
+
+fromsklearn.model_selection import train_test_split
+
+fromsklearn.metrics import mean_squared_error
+
+iris = datasets.load_iris()
+
+data = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+
+X = data
+
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42) 
+
+logreg = LogisticRegression(solver='lbfgs', penalty='l2', max_iter=10000) 
+
+logreg.fit(X_train, y_train)
+
+y_pred = logreg.predict(X_test)
+
+mse = mean_squared_error(y_test, y_pred)
+
+print("Mean Squared Error:", mse)
+
+accuracy = logreg.score(X_test, y_test) 
+
+print("Logistic regression Accuracy:", accuracy)
+
+5. Write a program to apply naïve bayes classifier on the iris dataset.
+
+Ans: from sklearn import datasets, decomposition
+
+import pandas as pd
+
+fromsklearn.model_selection import train_test_split
+
+fromsklearn.naive_bayes import GaussianNB
+
+fromsklearn.metrics import accuracy_score
+
+iris = datasets.load_iris()
+
+X = iris.data
+
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42) 
+
+model = GaussianNB()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+accuray = accuracy_score(y_pred, y_test)
+
+print("Accuracy score is:", accuray)
+
+6.Write a program to apply k-means clustering on the iris dataset.
+
+Ans: from sklearn import datasets, decomposition
+
+import pandas as pd
+
+fromsklearn.model_selection import train_test_split
+
+fromsklearn.cluster import KMeans
+
+importmatplotlib.pyplot as plt
+
+iris = datasets.load_iris()
+
+X = iris.data
+
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42) 
+
+kmeans = KMeans(n_clusters = 3, init = 'k-means++', max_iter = 300, n_init = 10, random_state = 0)
+
+y_kmeans = kmeans.fit_predict(X)
+
+plt.scatter(X[y_kmeans == 0, 0], X[y_kmeans == 0, 1], s = 100, c = 'purple', label = 'Iris-setosa')
+
+plt.scatter(X[y_kmeans == 1, 0], X[y_kmeans == 1, 1], s = 100, c = 'orange', label = 'Iris-versicolour')
+
+plt.scatter(X[y_kmeans == 2, 0], X[y_kmeans == 2, 1], s = 100, c = 'green', label = 'Iris-virginica')
+
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:,1], s = 100, c = 'red', label = 
+
+'Centroids')
+
+plt.legend()
+
+plt.show()
+
+Part B
+
+1. Write a program to normalize the iris dataset using standardization.
+Program Code:
+
+fromsklearn import datasets
+
+import pandas as pd
+
+fromsklearn.preprocessing import StandardScaler, MinMaxScaler
+
+import warnings
+
+iris = datasets.load_iris()
+
+data = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+
+print(data)
+
+print('Average of Feature')
+
+print(data.mean())
+
+print('\nFeature Variance')
+
+print(data.var())
+
+scaler = StandardScaler()
+
+scaler.fit(data)
+
+iris_scaled_std = scaler.transform(data)
+
+iris_df_std_scaled = pd.DataFrame(data=iris_scaled_std, columns=iris.feature_names)
+
+print('Standardized Feature Average')
+
+print(iris_df_std_scaled.mean())
+
+print('\nStandardized Feature Variance')
+
+print(iris_df_std_scaled.var())
+
+scaler = MinMaxScaler()
+
+scaler.fit(data)
+
+iris_scaled_minmax = scaler.transform(data)
+
+iris_df_minmax_scaled = pd.DataFrame(data=iris_scaled_minmax, columns=iris.feature_names)
+
+print('MinMax Scaled Feature Average')
+
+print(iris_df_minmax_scaled.mean())
+
+print('\nMinMax Scaled Feature Variance')
+
+print(iris_df_minmax_scaled.var())
+
+print('\nMinMax Scaled Min Value')
+
+print(iris_df_minmax_scaled.min())
+
+print('\nMinMax Scaled Max Value')
+print(iris_df_minmax_scaled.max())
+
+2. Write a program to impute the missing values and perform discrete transformation on the iris 
+
+dataset.
+
+Program Code:
+
+fromsklearn import datasets
+
+importnumpy as np
+
+import pandas as pd
+
+fromsklearn.preprocessing import KBinsDiscretizer
+
+fromsklearn.impute import SimpleImputer
+
+import warnings
+
+iris = datasets.load_iris()
+
+data = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+
+print(data)
+
+imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+
+print(imputer)
+
+imputer = imputer.fit(data)
+
+imputed_dataset = imputer.transform(data)
+
+print(imputed_dataset)
+
+iris_quantile_transform = KBinsDiscretizer(n_bins=10, encode='ordinal', strategy='quantile')
+
+quantile_transformed_data = iris_quantile_transform.fit_transform(data)
+
+print(pd.DataFrame(quantile_transformed_data))
+
+iris_uniform_transform = KBinsDiscretizer(n_bins=10, encode='ordinal', strategy='uniform')
+
+uniform_transformed_data = iris_uniform_transform.fit_transform(data)
+
+print(pd.DataFrame(uniform_transformed_data))
+
+3. Write a program to apply principal component analysis on the iris dataset.
+
+Program Code:
+
+fromsklearn import datasets, decomposition
+
+importnumpy as np
+
+import pandas as pd
+
+importmatplotlib.pyplot as plt
+
+import mpl_toolkits.mplot3d
+
+iris = datasets.load_iris()
+
+data = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+
+X = data
+
+y = iris.target
+
+print(data)
+
+fig = plt.figure(1, figsize=(4, 3))
+
+plt.clf()
+
+ax = fig.add_subplot(111, projection="3d", elev=48, azim=134)
+
+ax.set_position([0, 0, 0.95, 1])
+
+plt.cla()
+
+pca = decomposition.PCA(n_components=3)
+
+pca.fit(X)
+
+X = pca.transform(X)
+
+print(X)
+
+for name, label in [("Setosa", 0), ("Versicolour", 1), ("Virginica", 2)]:
+
+ax.text3D(
+
+ X[y == label, 0].mean(),
+
+ X[y == label, 1].mean() + 1.5,
+
+ X[y == label, 2].mean(),
+
+name,
+
+horizontalalignment="center",
+
+bbox=dict(alpha=0.5, edgecolor="w", facecolor="w"), )
+
+y = np.choose(y, [1, 2, 0]).astype(float)
+
+ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=y, cmap=plt.cm.nipy_spectral, edgecolor="k")
+ax.xaxis.set_ticklabels([])
+
+ax.yaxis.set_ticklabels([])
+
+ax.zaxis.set_ticklabels([])
+
+plt.show()
+
+4. Write a program to apply support vector machine classifier on the iris dataset and generate a 
+
+confusion matrix of the classifier.
+
+Ans: from sklearn import datasets, decomposition
+
+import pandas as pd
+
+fromsklearn.model_selection import train_test_split
+
+fromsklearn.svm import SVC
+
+fromsklearn.metrics import confusion_matrix
+
+fromsklearn.model_selection import cross_val_score
+
+iris = datasets.load_iris()
+
+X = iris.data
+
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42) 
+
+SVM_classifier = SVC(kernel='linear', random_state=0)
+
+SVM_classifier.fit(X_train, y_train)
+
+accuracy = cross_val_score(estimator=SVM_classifier, X=X_train, y=y_train, cv=10)
+
+print("Accuracy: {:.2f} %".format(accuracy.mean()*100))
+
+y_pred = SVM_classifier.predict(X_test)
+
+SVM_cm = confusion_matrix(y_test, y_pred)
+
+print("The confusion matrix is:")
+
+print(SVM_cm)
+
+5.Develop Decision Tree Classification model for a given dataset and use it to classify a 
+
+new sample.
+
+
+from sklearn import datasets
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.tree import DecisionTreeClassifier
+
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+iris = datasets.load_iris()
+
+X = iris.data 
+y = iris.target 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+dt_classifier = DecisionTreeClassifier(random_state=42)
+
+dt_classifier.fit(X_train, y_train)
+
+y_pred = dt_classifier.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+class_report = classification_report(y_test, y_pred)
+print(f"Accuracy: {accuracy * 100:.2f}%")
+
+print("\nConfusion Matrix:")
+
+print(conf_matrix)
+
+print("\nClassification Report:")
+
+print(class_report)
+
+new_sample = [[5.1, 3.5, 1.4, 0.2]] # Example: a new Iris sample (sepal_length, sepal_width, 
+
+petal_length, petal_width)
+
+new_prediction = dt_classifier.predict(new_sample)
+
+print(f"\nPredicted class for the new sample: {iris.target_names[new_prediction][0]}")
+
+6.Build KNN Classification model for a given dataset.
+
+import numpy as np
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+iris = datasets.load_iris()
+X = iris.data 
+y = iris.target 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+knn = KNeighborsClassifier(n_neighbors=3)
+knn.fit(X_train, y_train)
+y_pred = knn.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+class_report = classification_report(y_test, y_pred)
+print(f"Accuracy: {accuracy * 100:.2f}%")
+print("\nConfusion Matrix:")
+print(conf_matrix)
+print("\nClassification Report:")
+print(class_report)
+new_sample = [[5.1, 3.5, 1.4, 0.2]] 
+new_prediction = knn.predict(new_sample)
+print(f"\nPredicted class for the new sample: {iris.target_names[new_prediction][0]}")
