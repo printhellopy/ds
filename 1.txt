@@ -1,0 +1,20 @@
+from sklearn import datasets
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+iris=datasets.load_iris()
+data=pd.DataFrame(data=np.c_[iris['data'],iris['target']], columns=iris['feature_names']+['target'])
+data['target_names']=data['target'].replace(dict(enumerate(iris.target_names)))
+print(data.head())
+data.info()
+print(data.describe())
+Label_encoder=LabelEncoder()
+data['target_names_new']=Label_encoder.fit_transform(data['target_names'])
+print(data['target_names_new'])
+print(Label_encoder.classes_)
+print(data['target_names_new'].value_counts())
+One_hot=OneHotEncoder()
+transformed_data=One_hot.fit_transform(data['target_names'].values.reshape(-1,1)).toarray()
+print(One_hot.categories_)
+transformed_data=pd.DataFrame(transformed_data, columns=['setosa','versicolor','virginica'])
+print(transformed_data.head())
